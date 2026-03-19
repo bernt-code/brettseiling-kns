@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brettseiling på KNS — Finn din gruppe</title>
+  <meta name="description" content="Brettseiling for alle nivåer på Kongelig Norsk Seilforening. Fra nybegynner til IQ Foil Race Team." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #15233c;
+      --green: #61a229;
+      --green-dark: #4e8520;
+      --white: #ffffff;
+      --light: #f5f7fa;
+      --gray: #6b7280;
+      --border: #e2e8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1a1a2e;
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--navy);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav .logo {
+      color: white;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-decoration: none;
+    }
+    nav .logo span { color: var(--green); }
+
+    /* HERO */
+    .hero {
+      background: var(--navy);
+      color: white;
+      text-align: center;
+      padding: 80px 24px 100px;
+    }
+    .hero .kicker {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 60px);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: rgba(255,255,255,0.75);
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--green);
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 16px 36px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .hero-cta:hover { background: var(--green-dark); }
+
+    /* GROUPS OVERVIEW */
+    .groups-section {
+      padding: 64px 24px;
+      background: var(--light);
+    }
+    .section-label {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      text-align: center;
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 48px;
+    }
+    .groups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .group-card {
+      background: white;
+      border-radius: 12px;
+      padding: 32px 24px;
+      border: 1px solid var(--border);
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .group-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+    .group-card .icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 24px;
+    }
+    .group-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .group-card .level-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .badge-beginner { background: #dcfce7; color: #15803d; }
+    .badge-intermediate { background: #dbeafe; color: #1d4ed8; }
+    .badge-advanced { background: #fef3c7; color: #b45309; }
+    .badge-elite { background: #fce7f3; color: #be185d; }
+    .group-card p {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 20px;
+    }
+    .group-card .price {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    .group-card .price-sub {
+      font-size: 12px;
+      color: var(--gray);
+      margin-bottom: 20px;
+    }
+    .btn-outline {
+      display: inline-block;
+      border: 2px solid var(--green);
+      color: var(--green);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 10px 24px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { background: var(--green); color: white; }
+
+    /* PROGRESS STRIP */
+    .progress-strip {
+      background: var(--navy);
+      padding: 32px 24px;
+    }
+    .progress-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      flex-wrap: wrap;
+    }
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .progress-step .dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .progress-step .label {
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+    }
+    .progress-line {
+      flex: 1;
+      min-width: 20px;
+      max-width: 60px;
+      height: 2px;
+      background: rgba(255,255,255,0.2);
+      margin: 0 8px;
+    }
+
+    /* REGISTRATION SECTIONS */
+    .reg-section {
+      padding: 72px 24px;
+    }
+    .reg-section:nth-child(even) { background: var(--light); }
+
+    .reg-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    @media (max-width: 720px) {
+      .reg-inner { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    .reg-info .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .reg-info h2 {
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .reg-info p {
+      color: var(--gray);
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+    .reg-info ul {
+      list-style: none;
+      margin-bottom: 28px;
+    }
+    .reg-info ul li {
+      font-size: 14px;
+      color: #374151;
+      padding: 6px 0;
+      padding-left: 22px;
+      position: relative;
+    }
+    .reg-info ul li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-weight: 700;
+    }
+    .contact-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--navy);
+      color: white;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+    .contact-chip .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .contact-chip .name { font-weight: 700; }
+    .contact-chip a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; }
+    .contact-chip a:hover { color: white; }
+
+    /* FORM */
+    .reg-form {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 36px 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .reg-form h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #1a1a2e;
+      background: white;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--green);
+    }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .btn-submit {
+      width: 100%;
+      background: var(--green);
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: var(--green-dark); }
+    .form-note {
+      text-align: center;
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 12px;
+    }
+
+    /* SUCCESS STATE */
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .form-success .checkmark { font-size: 48px; margin-bottom: 16px; }
+    .form-success h3 { font-size: 20px; color: var(--navy); margin-bottom: 8px; }
+    .form-success p { color: var(--gray); font-size: 14px; }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 13px;
+    }
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    footer a:hover { color: white; }
+    footer .footer-brand { font-size: 16px; font-weight: 700; color: white; margin-bottom: 8px; }
+    footer .footer-brand span { color: var(--green); }
+
+    @media (max-width: 480px) {
+      .form-row { grid-template-columns: 1fr; }
+      .reg-form { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">KNS <span>Brettseiling</span></a>
+</nav>
+
+<section class="hero">
+  <p class="kicker">Kongelig Norsk Seilforening</p>
+  <h1>Brettseiling for alle nivåer</h1>
+  <p>Fra første gang på brettet til IQ Foil på internasjonalt nivå — finn gruppen som passer deg.</p>
+  <a href="#grupper" class="hero-cta">Finn din gruppe</a>
+</section>
+
+<div class="progress-strip">
+  <div class="progress-inner">
+    <div class="progress-step">
+      <div class="dot">1</div>
+      <span class="label">Nybegynner</span>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step">
+      <div class="dot">2</div>
+      <span class="label">Learn2fly</span>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step">
+      <div class="dot">3</div>
+      <span class="label">Flight Academy</span>
+    </div>
+    <div class="progress-line"></div>
+    <div class="progress-step">
+      <div class="dot">4</div>
+      <span class="label">IQ Foil Race</span>
+    </div>
+  </div>
+</div>
+
+<section class="groups-section" id="grupper">
+  <p class="section-label">Velg ditt nivå</p>
+  <h2 class="section-title">Fire grupper, én lidenskap</h2>
+  <div class="groups-grid">
+    <div class="group-card">
+      <div class="icon">🏄</div>
+      <span class="level-badge badge-beginner">Nybegynner</span>
+      <h3>Nybegynner</h3>
+      <p>Kom i gang med brettet. Vi lærer deg alt fra utstyr og rigging til å seile i ulike vindretninger.</p>
+      <div class="price">2 995 kr</div>
+      <div class="price-sub">1 995 kr med eget utstyr</div>
+      <a href="#nybegynner" class="btn-outline">Meld deg på</a>
+    </div>
+    <div class="group-card">
+      <div class="icon">💨</div>
+      <span class="level-badge badge-intermediate">Videregående</span>
+      <h3>Learn2fly</h3>
+      <p>Ta brettseilingen til neste nivå — trapes, fotstropper, fart og presis teknikk i alle vindforhold.</p>
+      <div class="price">2 995 kr</div>
+      <div class="price-sub">1 995 kr med eget utstyr</div>
+      <a href="#learn2fly" class="btn-outline">Meld deg på</a>
+    </div>
+    <div class="group-card">
+      <div class="icon">🚀</div>
+      <span class="level-badge badge-advanced">Avansert</span>
+      <h3>Flight Academy</h3>
+      <p>Lær å foile. Fra første takeoff til kontroll i lufta — for deg som er klar for å forlate vannet.</p>
+      <div class="price">Kontakt for pris</div>
+      <div class="price-sub">&nbsp;</div>
+      <a href="#flight-academy" class="btn-outline">Meld deg på</a>
+    </div>
+    <div class="group-card">
+      <div class="icon">🏆</div>
+      <span class="level-badge badge-elite">Elite</span>
+      <h3>IQ Foil Race Team</h3>
+      <p>Strukturert regattaseiling på IQ Foil. Trening og konkurranser på nasjonalt og internasjonalt nivå.</p>
+      <div class="price">Kontakt for pris</div>
+      <div class="price-sub">&nbsp;</div>
+      <a href="#iqfoil" class="btn-outline">Meld deg på</a>
+    </div>
+  </div>
+</section>
+
+<!-- 1. NYBEGYNNER -->
+<section class="reg-section" id="nybegynner">
+  <div class="reg-inner">
+    <div class="reg-info">
+      <span class="tag badge-beginner">Nybegynner</span>
+      <h2>Start reisen din på brettet</h2>
+      <p>Et komplett nybegynnerkurs der du lærer alt du trenger for å seile selvstendig. Ingen forkunnskaper kreves.</p>
+      <ul>
+        <li>Rigging av seil og brett</li>
+        <li>Seiling i ulike vindretninger</li>
+        <li>Manøvrering og styring</li>
+        <li>Sikkerhet og selvredning</li>
+        <li>Brett og seil inkludert</li>
+      </ul>
+      <div class="contact-chip">
+        <div class="avatar">GM</div>
+        <div>
+          <div class="name">Geir Mjøen</div>
+          <a href="mailto:geirmjo@gmail.com">geirmjo@gmail.com</a><br>
+          <a href="tel:+4795150456">951 50 456</a>
+        </div>
+      </div>
+    </div>
+    <div class="reg-form" id="form-nybegynner">
+      <h3>Meld deg på — Nybegynner</h3>
+      <form name="nybegynner" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="nybegynner" />
+        <p style="display:none"><input name="bot-field" /></p>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nb-fornavn">Fornavn *</label>
+            <input type="text" id="nb-fornavn" name="fornavn" required placeholder="Ola" />
+          </div>
+          <div class="form-group">
+            <label for="nb-etternavn">Etternavn *</label>
+            <input type="text" id="nb-etternavn" name="etternavn" required placeholder="Nordmann" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="nb-epost">E-post *</label>
+          <input type="email" id="nb-epost" name="epost" required placeholder="din@epost.no" />
+        </div>
+        <div class="form-group">
+          <label for="nb-telefon">Telefon</label>
+          <input type="tel" id="nb-telefon" name="telefon" placeholder="400 00 000" />
+        </div>
+        <div class="form-group">
+          <label for="nb-alder">Alder</label>
+          <input type="number" id="nb-alder" name="alder" placeholder="30" min="8" max="99" />
+        </div>
+        <div class="form-group">
+          <label for="nb-melding">Melding (valgfritt)</label>
+          <textarea id="nb-melding" name="melding" placeholder="Spørsmål eller annet du vil si oss?"></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send påmelding</button>
+        <p class="form-note">Vi tar kontakt innen 2 virkedager.</p>
+      </form>
+      <div class="form-success" id="success-nybegynner">
+        <div class="checkmark">✅</div>
+        <h3>Takk for påmeldingen!</h3>
+        <p>Geir tar kontakt med deg snart.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. LEARN2FLY -->
+<section class="reg-section" id="learn2fly">
+  <div class="reg-inner">
+    <div class="reg-info">
+      <span class="tag badge-intermediate">Videregående</span>
+      <h2>Learn2fly — ta det til neste nivå</h2>
+      <p>For deg som kan stå på brettet og er klar for å mestre det. Trapes, fotstropper, fart og full kontroll i alle vindforhold.</p>
+      <ul>
+        <li>Bruk av trapes og fotstropper</li>
+        <li>Trim, manøvrering og fart</li>
+        <li>Jibb og slag i alle vindretninger</li>
+        <li>Tuning av utstyr</li>
+        <li>Brett tilgjengelig, eget anbefales</li>
+      </ul>
+      <div class="contact-chip">
+        <div class="avatar">SS</div>
+        <div>
+          <div class="name">Sunniva Stenmark</div>
+          <a href="mailto:sunniva.stenmark@gmail.com">sunniva.stenmark@gmail.com</a><br>
+          <a href="tel:+4748282223">482 82 223</a>
+        </div>
+      </div>
+    </div>
+    <div class="reg-form" id="form-learn2fly">
+      <h3>Meld deg på — Learn2fly</h3>
+      <form name="learn2fly" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="learn2fly" />
+        <p style="display:none"><input name="bot-field" /></p>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="l2f-fornavn">Fornavn *</label>
+            <input type="text" id="l2f-fornavn" name="fornavn" required placeholder="Ola" />
+          </div>
+          <div class="form-group">
+            <label for="l2f-etternavn">Etternavn *</label>
+            <input type="text" id="l2f-etternavn" name="etternavn" required placeholder="Nordmann" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="l2f-epost">E-post *</label>
+          <input type="email" id="l2f-epost" name="epost" required placeholder="din@epost.no" />
+        </div>
+        <div class="form-group">
+          <label for="l2f-telefon">Telefon</label>
+          <input type="tel" id="l2f-telefon" name="telefon" placeholder="400 00 000" />
+        </div>
+        <div class="form-group">
+          <label for="l2f-erfaring">Erfaring</label>
+          <select id="l2f-erfaring" name="erfaring">
+            <option value="">Velg nivå</option>
+            <option>Fullført nybegynnerkurs</option>
+            <option>Noe erfaring, selvlært</option>
+            <option>Seilt noen sesonger</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="l2f-melding">Melding (valgfritt)</label>
+          <textarea id="l2f-melding" name="melding" placeholder="Spørsmål eller annet?"></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send påmelding</button>
+        <p class="form-note">Vi tar kontakt innen 2 virkedager.</p>
+      </form>
+      <div class="form-success" id="success-learn2fly">
+        <div class="checkmark">✅</div>
+        <h3>Takk for påmeldingen!</h3>
+        <p>Sunniva tar kontakt med deg snart.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. FLIGHT ACADEMY -->
+<section class="reg-section" id="flight-academy">
+  <div class="reg-inner">
+    <div class="reg-info">
+      <span class="tag badge-advanced">Avansert</span>
+      <h2>Flight Academy — foil for første gang</h2>
+      <p>For erfarne brettseilere som er klare for å løfte seg av vannet. Fra første takeoff til kontroll og fart på foilen.</p>
+      <ul>
+        <li>Introduksjon til foilutstyr</li>
+        <li>Teknikk for takeoff og landing</li>
+        <li>Stabilitet og kontroll i lufta</li>
+        <li>Progresjon mot høyere fart</li>
+        <li>Foilutstyr tilgjengelig</li>
+      </ul>
+      <div class="contact-chip">
+        <div class="avatar">HJ</div>
+        <div>
+          <div class="name">Hans-Jørgen Osnes</div>
+          <a href="mailto:hjosnes@gmail.com">hjosnes@gmail.com</a><br>
+          <a href="tel:+4741423060">414 23 060</a>
+        </div>
+      </div>
+    </div>
+    <div class="reg-form" id="form-flight">
+      <h3>Meld deg på — Flight Academy</h3>
+      <form name="flight-academy" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="flight-academy" />
+        <p style="display:none"><input name="bot-field" /></p>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fa-fornavn">Fornavn *</label>
+            <input type="text" id="fa-fornavn" name="fornavn" required placeholder="Ola" />
+          </div>
+          <div class="form-group">
+            <label for="fa-etternavn">Etternavn *</label>
+            <input type="text" id="fa-etternavn" name="etternavn" required placeholder="Nordmann" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="fa-epost">E-post *</label>
+          <input type="email" id="fa-epost" name="epost" required placeholder="din@epost.no" />
+        </div>
+        <div class="form-group">
+          <label for="fa-telefon">Telefon</label>
+          <input type="tel" id="fa-telefon" name="telefon" placeholder="400 00 000" />
+        </div>
+        <div class="form-group">
+          <label for="fa-erfaring">Erfaring med brettseiling</label>
+          <select id="fa-erfaring" name="erfaring">
+            <option value="">Velg nivå</option>
+            <option>1–2 sesonger</option>
+            <option>3–5 sesonger</option>
+            <option>Mer enn 5 sesonger</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="fa-foil">Foilerfaring?</label>
+          <select id="fa-foil" name="foilerfaring">
+            <option value="">Velg</option>
+            <option>Ingen foilerfaring</option>
+            <option>Prøvd foil noen ganger</option>
+            <option>Noe foilerfaring</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="fa-melding">Melding (valgfritt)</label>
+          <textarea id="fa-melding" name="melding" placeholder="Spørsmål eller annet?"></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send påmelding</button>
+        <p class="form-note">Vi tar kontakt innen 2 virkedager.</p>
+      </form>
+      <div class="form-success" id="success-flight">
+        <div class="checkmark">✅</div>
+        <h3>Takk for påmeldingen!</h3>
+        <p>Hans-Jørgen tar kontakt med deg snart.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. IQ FOIL RACE TEAM -->
+<section class="reg-section" id="iqfoil">
+  <div class="reg-inner">
+    <div class="reg-info">
+      <span class="tag badge-elite">Elite</span>
+      <h2>IQ Foil Race Team</h2>
+      <p>Strukturert regattaseiling for ambisiøse foilere. Trening mot nasjonale og internasjonale konkurranser i den olympiske IQ Foil-klassen.</p>
+      <ul>
+        <li>Regattaspesifikk teknikk og taktikk</li>
+        <li>Strukturert sesongprogram</li>
+        <li>Nasjonale og internasjonale regattaer</li>
+        <li>Individuelle treningsplaner</li>
+        <li>Samarbeid med KNS seilsportsenter</li>
+      </ul>
+      <div class="contact-chip">
+        <div class="avatar">BB</div>
+        <div>
+          <div class="name">Bernt Blankholm</div>
+          <a href="mailto:berntblankholm@gmail.com">berntblankholm@gmail.com</a><br>
+          <a href="tel:+4740404047">404 04 047</a>
+        </div>
+      </div>
+    </div>
+    <div class="reg-form" id="form-iqfoil">
+      <h3>Søk plass — IQ Foil Race Team</h3>
+      <form name="iqfoil-race" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="iqfoil-race" />
+        <p style="display:none"><input name="bot-field" /></p>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="iq-fornavn">Fornavn *</label>
+            <input type="text" id="iq-fornavn" name="fornavn" required placeholder="Ola" />
+          </div>
+          <div class="form-group">
+            <label for="iq-etternavn">Etternavn *</label>
+            <input type="text" id="iq-etternavn" name="etternavn" required placeholder="Nordmann" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="iq-epost">E-post *</label>
+          <input type="email" id="iq-epost" name="epost" required placeholder="din@epost.no" />
+        </div>
+        <div class="form-group">
+          <label for="iq-telefon">Telefon</label>
+          <input type="tel" id="iq-telefon" name="telefon" placeholder="400 00 000" />
+        </div>
+        <div class="form-group">
+          <label for="iq-alder">Alder</label>
+          <input type="number" id="iq-alder" name="alder" placeholder="25" min="12" max="60" />
+        </div>
+        <div class="form-group">
+          <label for="iq-bakgrunn">Seilbakgrunn</label>
+          <textarea id="iq-bakgrunn" name="bakgrunn" placeholder="Fortell kort om din erfaring med brettseiling og foiling..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="iq-utstyr">Eget IQ Foil utstyr?</label>
+          <select id="iq-utstyr" name="utstyr">
+            <option value="">Velg</option>
+            <option>Ja, fullrig</option>
+            <option>Delvis utstyr</option>
+            <option>Nei, trenger utstyr</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit">Send søknad</button>
+        <p class="form-note">Vi tar kontakt innen 2 virkedager.</p>
+      </form>
+      <div class="form-success" id="success-iqfoil">
+        <div class="checkmark">✅</div>
+        <h3>Takk for søknaden!</h3>
+        <p>Bernt tar kontakt med deg snart.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">KNS <span>Brettseiling</span></div>
+  <p>Kongelig Norsk Seilforening · Seilsportsenteret Ulabrand · Hengsengveien 31, 0287 Oslo</p>
+  <p style="margin-top:8px"><a href="https://www.kns.no">kns.no</a></p>
+</footer>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('success')) {
+    const name = params.get('success');
+    const map = { 'nybegynner': 'nybegynner', 'learn2fly': 'learn2fly', 'flight-academy': 'flight', 'iqfoil-race': 'iqfoil' };
+    const key = map[name];
+    if (key) {
+      const formWrap = document.getElementById('form-' + key);
+      const successEl = document.getElementById('success-' + key);
+      if (formWrap) formWrap.querySelector('form').style.display = 'none';
+      if (successEl) successEl.style.display = 'block';
+    }
+  }
+  document.querySelectorAll('[data-netlify="true"]').forEach(form => {
+    form.addEventListener('submit', function() {
+      const n = form.getAttribute('name');
+      const anchor = n === 'nybegynner' ? 'nybegynner' : n === 'learn2fly' ? 'learn2fly' : n === 'flight-academy' ? 'flight-academy' : 'iqfoil';
+      form.setAttribute('action', '/?success=' + n + '#' + anchor);
+    });
+  });
+</script>
+
+</body>
+</html>
