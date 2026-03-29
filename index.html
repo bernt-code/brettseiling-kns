@@ -10,8 +10,8 @@
 
     :root {
       --navy: #15233c;
-      --green: #61a229;
-      --green-dark: #4e8520;
+      --green: #c9a227;
+      --green-dark: #a8861e;
       --white: #ffffff;
       --light: #f5f7fa;
       --gray: #6b7280;
@@ -36,13 +36,14 @@
       justify-content: space-between;
     }
     nav .logo {
-      color: white;
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
       text-decoration: none;
+      display: flex;
+      align-items: center;
     }
-    nav .logo span { color: var(--green); }
+    nav .nav-logo {
+      height: 40px;
+      width: auto;
+    }
 
     /* HERO */
     .hero {
@@ -50,7 +51,25 @@
       color: white;
       text-align: center;
       padding: 80px 24px 100px;
+      position: relative;
+      overflow: hidden;
     }
+    .hero-video {
+      position: absolute !important;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0 !important;
+    }
+    .hero-overlay {
+      position: absolute !important;
+      inset: 0;
+      background: var(--navy);
+      opacity: 0.6;
+      z-index: 1 !important;
+    }
+    .hero > * { position: relative; z-index: 2; }
     .hero .kicker {
       font-size: 13px;
       font-weight: 600;
@@ -313,6 +332,15 @@
     .contact-chip a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 13px; }
     .contact-chip a:hover { color: white; }
 
+    /* SECTION IMAGE */
+    .reg-image {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      object-fit: cover;
+      max-height: 320px;
+    }
+
     /* FORM */
     .reg-form {
       background: white;
@@ -399,22 +427,37 @@
     }
     footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
     footer a:hover { color: white; }
-    footer .footer-brand { font-size: 16px; font-weight: 700; color: white; margin-bottom: 8px; }
+    footer .footer-brand { font-size: 20px; font-weight: 700; color: white; margin-bottom: 32px; }
     footer .footer-brand span { color: var(--green); }
+    .footer-inner { max-width: 960px; margin: 0 auto; }
+    .footer-links { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; margin-bottom: 32px; text-align: left; }
+    .footer-col h4 { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+    .footer-col a, .footer-col p { display: block; font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 8px; text-decoration: none; }
+    .footer-col a:hover { color: white; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: center; }
+    .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.4); }
 
+    @media (max-width: 720px) {
+      .footer-links { grid-template-columns: 1fr 1fr; }
+    }
     @media (max-width: 480px) {
       .form-row { grid-template-columns: 1fr; }
       .reg-form { padding: 24px 20px; }
+      .footer-links { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
 <nav>
-  <a href="#" class="logo">KNS <span>Brettseiling</span></a>
+  <a href="index.html" class="logo"><img src="images/kns-logo.png" alt="KNS — Kongelig Norsk Seilforening" class="nav-logo" /></a>
 </nav>
 
 <section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline poster="images/hero-foil.jpg">
+    <source src="images/hero-video.mp4" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
   <p class="kicker">Kongelig Norsk Seilforening</p>
   <h1>Brettseiling for alle nivåer</h1>
   <p>Fra første gang på brettet til IQ Foil på internasjonalt nivå — finn gruppen som passer deg.</p>
@@ -454,36 +497,28 @@
       <span class="level-badge badge-beginner">Nybegynner</span>
       <h3>Nybegynner</h3>
       <p>Kom i gang med brettet. Vi lærer deg alt fra utstyr og rigging til å seile i ulike vindretninger.</p>
-      <div class="price">2 995 kr</div>
-      <div class="price-sub">1 995 kr med eget utstyr</div>
-      <a href="#nybegynner" class="btn-outline">Meld deg på</a>
+      <a href="nybegynner.html" class="btn-outline">Les mer</a>
     </div>
     <div class="group-card">
       <div class="icon">💨</div>
       <span class="level-badge badge-intermediate">Videregående</span>
       <h3>Learn2fly</h3>
-      <p>Ta brettseilingen til neste nivå — trapes, fotstropper, fart og presis teknikk i alle vindforhold.</p>
-      <div class="price">2 995 kr</div>
-      <div class="price-sub">1 995 kr med eget utstyr</div>
-      <a href="#learn2fly" class="btn-outline">Meld deg på</a>
+      <p>Lær å foile. Fra første takeoff til kontroll i lufta — for deg som er klar for å forlate vannet.</p>
+      <a href="learn2fly.html" class="btn-outline">Les mer</a>
     </div>
     <div class="group-card">
       <div class="icon">🚀</div>
       <span class="level-badge badge-advanced">Avansert</span>
       <h3>Flight Academy</h3>
-      <p>Lær å foile. Fra første takeoff til kontroll i lufta — for deg som er klar for å forlate vannet.</p>
-      <div class="price">Kontakt for pris</div>
-      <div class="price-sub">&nbsp;</div>
-      <a href="#flight-academy" class="btn-outline">Meld deg på</a>
+      <p>Ta brettseilingen til neste nivå — trapes, fotstropper, fart og presis teknikk i alle vindforhold.</p>
+      <a href="flight-academy.html" class="btn-outline">Les mer</a>
     </div>
     <div class="group-card">
       <div class="icon">🏆</div>
       <span class="level-badge badge-elite">Elite</span>
       <h3>IQ Foil Race Team</h3>
       <p>Strukturert regattaseiling på IQ Foil. Trening og konkurranser på nasjonalt og internasjonalt nivå.</p>
-      <div class="price">Kontakt for pris</div>
-      <div class="price-sub">&nbsp;</div>
-      <a href="#iqfoil" class="btn-outline">Meld deg på</a>
+      <a href="iqfoil.html" class="btn-outline">Les mer</a>
     </div>
   </div>
 </section>
@@ -492,6 +527,7 @@
 <section class="reg-section" id="nybegynner">
   <div class="reg-inner">
     <div class="reg-info">
+      <img src="images/nybegynner/IMG_0734.jpeg" alt="To unge brettseilere med redningsvester på vannet" class="reg-image" />
       <span class="tag badge-beginner">Nybegynner</span>
       <h2>Start reisen din på brettet</h2>
       <p>Et komplett nybegynnerkurs der du lærer alt du trenger for å seile selvstendig. Ingen forkunnskaper kreves.</p>
@@ -558,6 +594,7 @@
 <section class="reg-section" id="learn2fly">
   <div class="reg-inner">
     <div class="reg-info">
+      <img src="images/nybegynner/DSC_3105.jpeg" alt="Brettseilere med Severne-seil" class="reg-image" />
       <span class="tag badge-intermediate">Videregående</span>
       <h2>Learn2fly — ta det til neste nivå</h2>
       <p>For deg som kan stå på brettet og er klar for å mestre det. Trapes, fotstropper, fart og full kontroll i alle vindforhold.</p>
@@ -629,6 +666,7 @@
 <section class="reg-section" id="flight-academy">
   <div class="reg-inner">
     <div class="reg-info">
+      <img src="images/learn2fly/DSC_3001.jpeg" alt="Foilseiler løfter seg av vannet" class="reg-image" />
       <span class="tag badge-advanced">Avansert</span>
       <h2>Flight Academy — foil for første gang</h2>
       <p>For erfarne brettseilere som er klare for å løfte seg av vannet. Fra første takeoff til kontroll og fart på foilen.</p>
@@ -709,6 +747,7 @@
 <section class="reg-section" id="iqfoil">
   <div class="reg-inner">
     <div class="reg-info">
+      <img src="images/iqfoil/IMG_3701.jpeg" alt="IQ Foil-seilere i regatta" class="reg-image" />
       <span class="tag badge-elite">Elite</span>
       <h2>IQ Foil Race Team</h2>
       <p>Strukturert regattaseiling for ambisiøse foilere. Trening mot nasjonale og internasjonale konkurranser i den olympiske IQ Foil-klassen.</p>
@@ -781,9 +820,42 @@
 </section>
 
 <footer>
-  <div class="footer-brand">KNS <span>Brettseiling</span></div>
-  <p>Kongelig Norsk Seilforening · Seilsportsenteret Ulabrand · Hengsengveien 31, 0287 Oslo</p>
-  <p style="margin-top:8px"><a href="https://www.kns.no">kns.no</a></p>
+  <div class="footer-inner">
+    <div class="footer-brand">KNS <span>Brettseiling</span></div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Grupper</h4>
+        <a href="nybegynner.html">Nybegynner</a>
+        <a href="learn2fly.html">Learn2fly</a>
+        <a href="flight-academy.html">Flight Academy</a>
+        <a href="iqfoil.html">IQ Foil Race Team</a>
+      </div>
+      <div class="footer-col">
+        <h4>KNS</h4>
+        <a href="https://www.kns.no" target="_blank">kns.no</a>
+        <a href="https://www.kns.no/seilsport" target="_blank">Seilsportsenteret</a>
+        <a href="https://www.kns.no/medlemskap" target="_blank">Bli medlem</a>
+      </div>
+      <div class="footer-col">
+        <h4>Ressurser</h4>
+        <a href="https://www.iqfoilclassofficial.org/" target="_blank">IQ Foil Class</a>
+        <a href="https://www.instagram.com/iqfoilclass/" target="_blank">IQ Foil Instagram</a>
+        <a href="https://www.iqfoilyouthjuniorclass.org/" target="_blank">Youth & Junior Class</a>
+        <a href="https://manage2sail.com/no" target="_blank">Manage2Sail</a>
+      </div>
+      <div class="footer-col">
+        <h4>Kontakt</h4>
+        <p><strong>KNS Seilsportsenter Ulabrand</strong></p>
+        <p>Hovedtrener: Geir Dahl Andersen</p>
+        <p>Hengsengveien 31, 0287 Oslo</p>
+        <a href="tel:91601352">916 01 352</a>
+        <a href="mailto:geir@kns.no">geir@kns.no</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Kongelig Norsk Seilforening — Brettseilingsgruppen</p>
+    </div>
+  </div>
 </footer>
 
 <script>
