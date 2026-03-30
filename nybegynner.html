@@ -59,6 +59,53 @@
     .swap-sesong.visible {
       display: inline;
     }
+    /* Skjul helger etter de 4 første */
+    .introkurs-hidden {
+      display: none;
+    }
+    .introkurs-hidden.show {
+      display: flex;
+    }
+    /* Meld på-knapp i kort */
+    .btn-meldpa {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: 2px solid var(--green);
+      border-radius: 6px;
+      background: var(--green);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-meldpa:hover {
+      background: transparent;
+      color: var(--navy);
+    }
+    /* Se mer-knapp */
+    .btn-semer {
+      display: inline-block;
+      padding: 10px 28px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: 2px solid var(--green);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--navy);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-semer:hover {
+      background: var(--green);
+      color: #fff;
+    }
+    /* Valgt helg-markering */
+    .schedule-card.selected {
+      border: 2px solid var(--green);
+      box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
+    }
   </style>
 </head>
 <body>
@@ -322,52 +369,297 @@
   <div class="content-inner">
     <div class="content-text full-width">
       <h2>Kurskalender</h2>
-      <p>Introkursene går som helgekurs (lørdag–søndag, kl. 10–15) fra mai til september. Nye helger legges ut løpende — meld interesse så gir vi beskjed når neste kurs åpner.</p>
-      <div class="schedule-grid">
-        <div class="schedule-card">
+      <p>Introkursene går som helgekurs (lørdag–søndag, kl. 10–15) fra mai til september. Velg en helg og meld deg på!</p>
+      <div class="schedule-grid" id="introkursGrid">
+        <!-- 1 -->
+        <div class="schedule-card introkurs-card">
           <div class="schedule-date">
             <span class="day-name">Lør–Søn</span>
-            <span class="time">10. – 11. mai</span>
+            <span class="time">2. – 3. mai</span>
           </div>
           <div class="schedule-info">
             <span class="schedule-tag trening">Introkurs</span>
             <h4>Introkurs helg</h4>
-            <p>Sesongåpning! To dager, kl. 10:00–15:00. Maks 10 plasser.</p>
+            <p>Sesongåpning! Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="2.–3. mai 2026" onclick="velgHelg(this)">Meld på</button>
           </div>
         </div>
-        <div class="schedule-card">
+        <!-- 2 -->
+        <div class="schedule-card introkurs-card">
           <div class="schedule-date">
             <span class="day-name">Lør–Søn</span>
-            <span class="time">7. – 8. juni</span>
+            <span class="time">9. – 10. mai</span>
           </div>
           <div class="schedule-info">
             <span class="schedule-tag trening">Introkurs</span>
             <h4>Introkurs helg</h4>
-            <p>To dager, kl. 10:00–15:00. Maks 10 plasser.</p>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="9.–10. mai 2026" onclick="velgHelg(this)">Meld på</button>
           </div>
         </div>
-        <div class="schedule-card">
+        <!-- 3 -->
+        <div class="schedule-card introkurs-card">
           <div class="schedule-date">
             <span class="day-name">Lør–Søn</span>
-            <span class="time">5. – 6. juli</span>
+            <span class="time">16. – 17. mai</span>
           </div>
           <div class="schedule-info">
             <span class="schedule-tag trening">Introkurs</span>
             <h4>Introkurs helg</h4>
-            <p>To dager, kl. 10:00–15:00. Maks 10 plasser.</p>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="16.–17. mai 2026" onclick="velgHelg(this)">Meld på</button>
           </div>
         </div>
-        <div class="schedule-card">
+        <!-- 4 -->
+        <div class="schedule-card introkurs-card">
           <div class="schedule-date">
             <span class="day-name">Lør–Søn</span>
-            <span class="time">16. – 17. aug</span>
+            <span class="time">23. – 24. mai</span>
           </div>
           <div class="schedule-info">
             <span class="schedule-tag trening">Introkurs</span>
             <h4>Introkurs helg</h4>
-            <p>To dager, kl. 10:00–15:00. Maks 10 plasser.</p>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="23.–24. mai 2026" onclick="velgHelg(this)">Meld på</button>
           </div>
         </div>
+        <!-- 5 (skjult) -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">30. – 31. mai</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="30.–31. mai 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 6 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">6. – 7. juni</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="6.–7. juni 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 7 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">13. – 14. juni</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="13.–14. juni 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 8 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">20. – 21. juni</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="20.–21. juni 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 9 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">27. – 28. juni</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="27.–28. juni 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 10 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">4. – 5. juli</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="4.–5. juli 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 11 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">11. – 12. juli</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="11.–12. juli 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 12 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">18. – 19. juli</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="18.–19. juli 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 13 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">25. – 26. juli</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="25.–26. juli 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 14 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">1. – 2. aug</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="1.–2. august 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 15 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">8. – 9. aug</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="8.–9. august 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 16 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">15. – 16. aug</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="15.–16. august 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 17 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">22. – 23. aug</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="22.–23. august 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 18 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">29. – 30. aug</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="29.–30. august 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 19 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">5. – 6. sep</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="5.–6. september 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 20 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">12. – 13. sep</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="12.–13. september 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 21 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">19. – 20. sep</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="19.–20. september 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+        <!-- 22 -->
+        <div class="schedule-card introkurs-card introkurs-hidden">
+          <div class="schedule-date">
+            <span class="day-name">Lør–Søn</span>
+            <span class="time">26. – 27. sep</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Introkurs</span>
+            <h4>Introkurs helg</h4>
+            <p>Sesongslutt! Kl. 10–15. Maks 10 plasser.</p>
+            <button class="btn-meldpa" data-dato="26.–27. september 2026" onclick="velgHelg(this)">Meld på</button>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top: 16px;">
+        <button class="btn-semer" id="btnSeMer" onclick="visMerHelger()">Se alle helger ▼</button>
       </div>
       <div class="schedule-note">Minimum 4 påmeldte for gjennomføring. Kurs kan bli flyttet ved dårlige værforhold. Kommunikasjon via Spond.</div>
     </div>
@@ -439,9 +731,13 @@
     </div>
     <div class="reg-form" id="form-nybegynner">
       <h3>Påmelding — <span class="swap-introkurs visible">Introkurs helg</span><span class="swap-sesong">Sesongkurs</span></h3>
+      <div id="valgtHelgInfo" style="display:none; background: rgba(201,162,39,0.1); border: 1px solid var(--green); border-radius: 8px; padding: 10px 16px; margin-bottom: 16px; font-weight: 600; color: var(--navy);">
+        Valgt helg: <span id="valgtHelgTekst"></span>
+      </div>
       <form name="nybegynner" method="POST" action="/nybegynner.html?success=1#pamelding" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="nybegynner" />
         <input type="hidden" name="kurstype" id="nb-kurstype" value="introkurs" />
+        <input type="hidden" name="kurshelg" id="nb-kurshelg" value="" />
         <p style="display:none"><input name="bot-field" /></p>
         <div class="form-row">
           <div class="form-group">
@@ -537,6 +833,37 @@
   toggleBtns.forEach(btn => {
     btn.addEventListener('click', () => switchCourse(btn.dataset.course));
   });
+
+  /* --- Se mer / Se færre helger --- */
+  function visMerHelger() {
+    const hidden = document.querySelectorAll('.introkurs-hidden');
+    const btn = document.getElementById('btnSeMer');
+    const isExpanded = btn.dataset.expanded === 'true';
+    hidden.forEach(el => el.classList.toggle('show', !isExpanded));
+    btn.dataset.expanded = isExpanded ? 'false' : 'true';
+    btn.textContent = isExpanded ? 'Se alle helger ▼' : 'Se færre ▲';
+  }
+
+  /* --- Velg helg og scroll til påmelding --- */
+  function velgHelg(btnEl) {
+    const dato = btnEl.getAttribute('data-dato');
+    // Oppdater skjult felt
+    const helgField = document.getElementById('nb-kurshelg');
+    if (helgField) helgField.value = dato;
+    // Vis valgt helg i påmeldingsseksjonen
+    const infoDiv = document.getElementById('valgtHelgInfo');
+    const tekstSpan = document.getElementById('valgtHelgTekst');
+    if (infoDiv && tekstSpan) {
+      tekstSpan.textContent = dato;
+      infoDiv.style.display = 'block';
+    }
+    // Marker valgt kort
+    document.querySelectorAll('.introkurs-card').forEach(c => c.classList.remove('selected'));
+    btnEl.closest('.schedule-card').classList.add('selected');
+    // Scroll til påmelding
+    const target = document.getElementById('pamelding');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 
   /* --- Form success handling --- */
   const params = new URLSearchParams(window.location.search);
