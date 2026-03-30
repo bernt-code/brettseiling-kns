@@ -106,6 +106,29 @@
       border: 2px solid var(--green);
       box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
     }
+    /* Påmeldte under hvert kort */
+    .pameldte-liste {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(21, 35, 60, 0.1);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    .pameldte-label {
+      font-weight: 600;
+      color: var(--navy);
+      margin-right: 4px;
+    }
+    .pameldt-navn {
+      display: inline-block;
+      background: rgba(201, 162, 39, 0.12);
+      color: var(--navy);
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin: 2px 3px;
+    }
   </style>
 </head>
 <body>
@@ -864,6 +887,37 @@
     const target = document.getElementById('pamelding');
     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
+  /* --- Hent og vis påmeldte per helg --- */
+  async function hentPameldte() {
+    try {
+      const res = await fetch('/.netlify/functions/pameldte');
+      if (!res.ok) return;
+      const data = await res.json();
+      const helger = data.helger || {};
+      // Gå gjennom alle introkurs-kort og legg inn navn
+      document.querySelectorAll('.introkurs-card').forEach(card => {
+        const btn = card.querySelector('.btn-meldpa');
+        if (!btn) return;
+        const dato = btn.getAttribute('data-dato');
+        const navnListe = helger[dato];
+        if (!navnListe || navnListe.length === 0) return;
+        // Fjern eksisterende visning
+        const existing = card.querySelector('.pameldte-liste');
+        if (existing) existing.remove();
+        // Bygg navneliste
+        const div = document.createElement('div');
+        div.className = 'pameldte-liste';
+        const antall = navnListe.length;
+        div.innerHTML = '<span class="pameldte-label">Påmeldt (' + antall + '/' + '10):</span> ' +
+          navnListe.map(n => '<span class="pameldt-navn">' + n + '</span>').join(' ');
+        card.querySelector('.schedule-info').appendChild(div);
+      });
+    } catch (e) {
+      // Stille feil — vis bare ikke navnene
+    }
+  }
+  hentPameldte();
 
   /* --- Form success handling --- */
   const params = new URLSearchParams(window.location.search);
