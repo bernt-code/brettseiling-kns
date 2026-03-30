@@ -106,28 +106,43 @@
       border: 2px solid var(--green);
       box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
     }
-    /* Påmeldte under hvert kort */
-    .pameldte-liste {
-      margin-top: 10px;
-      padding-top: 8px;
-      border-top: 1px solid rgba(21, 35, 60, 0.1);
-      font-size: 0.85rem;
-      line-height: 1.6;
-    }
-    .pameldte-label {
+    /* Ledige plasser på helgekort */
+    .plasser-info {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 0.8rem;
       font-weight: 600;
+      color: var(--green);
+    }
+    .plasser-info.nesten-fullt {
+      color: #e67e22;
+    }
+    .plasser-info.fullt {
+      color: #c0392b;
+    }
+    /* Påmeldte i påmeldingsseksjonen */
+    .pameldte-boks {
+      background: rgba(201, 162, 39, 0.08);
+      border: 1px solid rgba(201, 162, 39, 0.25);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 16px;
+    }
+    .pameldte-boks h4 {
+      margin: 0 0 8px 0;
+      font-size: 0.9rem;
       color: var(--navy);
-      margin-right: 4px;
     }
     .pameldt-navn {
       display: inline-block;
-      background: rgba(201, 162, 39, 0.12);
+      background: #fff;
       color: var(--navy);
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 0.8rem;
+      padding: 3px 12px;
+      border-radius: 14px;
+      font-size: 0.82rem;
       font-weight: 500;
-      margin: 2px 3px;
+      margin: 3px 3px;
+      border: 1px solid rgba(21, 35, 60, 0.1);
     }
   </style>
 </head>
@@ -736,6 +751,11 @@
         <div class="price-main">1 500 kr / helg</div>
         <div class="price-note">To dager (lør–søn, kl. 10–15). Alt utstyr inkludert. Min. 4, maks 10 deltakere.</div>
       </div>
+      <!-- Påmeldte for valgt helg -->
+      <div id="pameldteBoks" class="pameldte-boks" style="display:none;">
+        <h4>Påmeldt <span id="pameldteHelgNavn"></span>:</h4>
+        <div id="pameldteNavnListe"></div>
+      </div>
 
       <!-- PRIS — SESONGKURS -->
       <div class="price-box view-sesong">
@@ -867,6 +887,9 @@
     btn.textContent = isExpanded ? 'Se alle helger ▼' : 'Se færre ▲';
   }
 
+  /* --- Påmeldingsdata (fylles av hentPameldte) --- */
+  let pameldteData = {};
+
   /* --- Velg helg og scroll til påmelding --- */
   function velgHelg(btnEl) {
     const dato = btnEl.getAttribute('data-dato');
@@ -880,6 +903,8 @@
       tekstSpan.textContent = dato;
       infoDiv.style.display = 'block';
     }
+    // Vis påmeldte for denne helgen i påmeldingsseksjonen
+    visPameldteForHelg(dato);
     // Marker valgt kort
     document.querySelectorAll('.introkurs-card').forEach(c => c.classList.remove('selected'));
     btnEl.closest('.schedule-card').classList.add('selected');
@@ -888,33 +913,58 @@
     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  /* --- Hent og vis påmeldte per helg --- */
+  /* --- Vis påmeldte navn i påmeldingsseksjonen --- */
+  function visPameldteForHelg(dato) {
+    const boks = document.getElementById('pameldteBoks');
+    const helgNavn = document.getElementById('pameldteHelgNavn');
+    const navnListe = document.getElementById('pameldteNavnListe');
+    if (!boks || !navnListe) return;
+    const navn = pameldteData[dato] || [];
+    if (navn.length === 0) {
+      boks.style.display = 'none';
+      return;
+    }
+    helgNavn.textContent = dato;
+    navnListe.innerHTML = navn.map(n => '<span class="pameldt-navn">' + n + '</span>').join(' ');
+    boks.style.display = 'block';
+  }
+
+  /* --- Hent påmeldte og vis ledige plasser på kort --- */
   async function hentPameldte() {
     try {
       const res = await fetch('/.netlify/functions/pameldte');
       if (!res.ok) return;
       const data = await res.json();
-      const helger = data.helger || {};
-      // Gå gjennom alle introkurs-kort og legg inn navn
+      pameldteData = data.helger || {};
+      // Vis ledige plasser på hvert kort
       document.querySelectorAll('.introkurs-card').forEach(card => {
         const btn = card.querySelector('.btn-meldpa');
         if (!btn) return;
         const dato = btn.getAttribute('data-dato');
-        const navnListe = helger[dato];
-        if (!navnListe || navnListe.length === 0) return;
-        // Fjern eksisterende visning
-        const existing = card.querySelector('.pameldte-liste');
+        const antall = (pameldteData[dato] || []).length;
+        const ledig = 10 - antall;
+        // Fjern gammel info
+        const existing = card.querySelector('.plasser-info');
         if (existing) existing.remove();
-        // Bygg navneliste
-        const div = document.createElement('div');
-        div.className = 'pameldte-liste';
-        const antall = navnListe.length;
-        div.innerHTML = '<span class="pameldte-label">Påmeldt (' + antall + '/' + '10):</span> ' +
-          navnListe.map(n => '<span class="pameldt-navn">' + n + '</span>').join(' ');
-        card.querySelector('.schedule-info').appendChild(div);
+        // Legg til plasser-info
+        const span = document.createElement('span');
+        span.className = 'plasser-info';
+        if (ledig <= 0) {
+          span.classList.add('fullt');
+          span.textContent = 'Fullt!';
+          btn.disabled = true;
+          btn.style.opacity = '0.5';
+          btn.style.cursor = 'not-allowed';
+        } else if (ledig <= 3) {
+          span.classList.add('nesten-fullt');
+          span.textContent = ledig + ' ledige plasser';
+        } else {
+          span.textContent = ledig + ' ledige plasser';
+        }
+        btn.insertAdjacentElement('afterend', span);
       });
     } catch (e) {
-      // Stille feil — vis bare ikke navnene
+      // Stille feil — vis bare ikke info
     }
   }
   hentPameldte();
