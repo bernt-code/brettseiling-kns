@@ -108,8 +108,8 @@
     }
     /* Ledige plasser på helgekort */
     .plasser-info {
-      display: inline-block;
-      margin-top: 6px;
+      display: block;
+      margin-top: 10px;
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--green);
@@ -955,10 +955,8 @@
           btn.disabled = true;
           btn.style.opacity = '0.5';
           btn.style.cursor = 'not-allowed';
-        } else if (ledig <= 3) {
-          span.classList.add('nesten-fullt');
-          span.textContent = ledig + ' ledige plasser';
-        } else {
+        } else if (ledig < 10) {
+          if (ledig <= 3) span.classList.add('nesten-fullt');
           span.textContent = ledig + ' ledige plasser';
         }
         btn.insertAdjacentElement('afterend', span);
