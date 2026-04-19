@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  Netlify Forms schema declaration
+  ============================================================
+  Denne filen eksisterer KUN for å fortelle Netlify hvilke
+  skjemaer som finnes på siden og hvilke felter de har.
+
+  Netlify sin automatiske form-detection har noen ganger
+  problemer med å oppdage nye felter når et skjema allerede
+  er registrert med en gammel schema. Ved å deklarere
+  skjemaene her eksplisitt, garanterer vi at alle felter
+  blir registrert.
+
+  Filen rendres aldri til brukere — Netlify scanner den kun
+  ved build for å registrere form-schemaene.
+  ============================================================
+-->
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <title>Netlify Forms schema</title>
+</head>
+<body>
+
+  <!-- ================ nybegynner (helg) ================ -->
+  <form name="nybegynner" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="nybegynner" />
+    <input type="hidden" name="kurstype" value="introkurs" />
+    <input type="text" name="kurshelg" />
+    <input type="text" name="bot-field" />
+    <input type="text" name="fornavn" />
+    <input type="text" name="etternavn" />
+    <input type="email" name="epost" />
+    <input type="tel" name="telefon" />
+    <input type="number" name="alder" />
+    <input type="text" name="foreldrenavn" />
+    <textarea name="melding"></textarea>
+  </form>
+
+  <!-- ================ nybegynner-sesong ================ -->
+  <form name="nybegynner-sesong" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="nybegynner-sesong" />
+    <input type="hidden" name="kurstype" value="sesongkurs" />
+    <input type="text" name="bot-field" />
+    <select name="sesong">
+      <option value="Sommer (9. mai – 20. juni)">Sommer (9. mai – 20. juni)</option>
+      <option value="Høst (15. juli – 30. september)">Høst (15. juli – 30. september)</option>
+    </select>
+    <input type="text" name="fornavn" />
+    <input type="text" name="etternavn" />
+    <input type="email" name="epost" />
+    <input type="tel" name="telefon" />
+    <input type="number" name="alder" />
+    <input type="text" name="foreldrenavn" />
+    <select name="egetutstyr">
+      <option value="nei">Nei</option>
+      <option value="ja">Ja</option>
+    </select>
+    <textarea name="melding"></textarea>
+  </form>
+
+  <!-- ================ learn2fly ================ -->
+  <form name="learn2fly" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="learn2fly" />
+    <input type="text" name="bot-field" />
+    <input type="text" name="fornavn" />
+    <input type="text" name="etternavn" />
+    <input type="email" name="epost" />
+    <input type="tel" name="telefon" />
+    <input type="text" name="erfaring" />
+    <textarea name="melding"></textarea>
+  </form>
+
+  <!-- ================ flight-academy ================ -->
+  <form name="flight-academy" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="flight-academy" />
+    <input type="text" name="bot-field" />
+    <input type="text" name="fornavn" />
+    <input type="text" name="etternavn" />
+    <input type="email" name="epost" />
+    <input type="tel" name="telefon" />
+    <input type="text" name="erfaring" />
+    <input type="text" name="foilerfaring" />
+    <textarea name="melding"></textarea>
+  </form>
+
+  <!-- ================ iqfoil-race ================ -->
+  <form name="iqfoil-race" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="iqfoil-race" />
+    <input type="text" name="bot-field" />
+    <input type="text" name="fornavn" />
+    <input type="text" name="etternavn" />
+    <input type="email" name="epost" />
+    <input type="tel" name="telefon" />
+    <input type="number" name="alder" />
+    <input type="text" name="bakgrunn" />
+  </form>
+
+</body>
+</html>
