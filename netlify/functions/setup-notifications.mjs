@@ -13,12 +13,14 @@
 const SITE_ID = '0bac5dc6-0ecb-4383-ab67-f9cb9e0015c9';
 
 // Hvem skal motta mail for hvilket skjema
+// Alle skjemaer sender også kopi til geir@kns.no (hovedtrener)
+const HOVEDTRENER = 'geir@kns.no';
 const MAIL_MOTTAKERE = {
-  'nybegynner':          'berntblankholm@gmail.com',
-  'nybegynner-sesong':   'berntblankholm@gmail.com',
-  'learn2fly':           'sunniva.stenmark@gmail.com',
-  'flight-academy':      'hjosnes@gmail.com',
-  'iqfoil-race':         'berntblankholm@gmail.com',
+  'nybegynner':          ['berntblankholm@gmail.com', HOVEDTRENER],
+  'nybegynner-sesong':   ['berntblankholm@gmail.com', HOVEDTRENER],
+  'learn2fly':           ['sunniva.stenmark@gmail.com', HOVEDTRENER],
+  'flight-academy':      ['hjosnes@gmail.com', HOVEDTRENER],
+  'iqfoil-race':         ['berntblankholm@gmail.com', HOVEDTRENER],
 };
 
 const API_BASE = 'https://api.netlify.com/api/v1';
@@ -50,9 +52,9 @@ export default async (req) => {
 
     // 3) Loop gjennom alle skjemaer vi har mapping for
     for (const form of forms) {
-      const mottaker = MAIL_MOTTAKERE[form.name];
+      const mottakere = MAIL_MOTTAKERE[form.name];
 
-      if (!mottaker) {
+      if (!mottakere) {
         // Ukjent skjemanavn (kan være -page duplikater eller nytt skjema vi ikke har mapping for)
         rapport.ukjente.push({ skjema: form.name, form_id: form.id });
         continue;
@@ -65,9 +67,9 @@ export default async (req) => {
         h.event === 'submission_created'
       );
 
-      // Slett alle hooks som IKKE matcher ny mottaker (f.eks. gammel mottaker)
+      // Slett alle hooks hvis mottaker IKKE er i listen over forventede mottakere
       for (const h of emailHooks) {
-        if (h.data && h.data.email !== mottaker) {
+        if (h.data && !mottakere.includes(h.data.email)) {
           const delRes = await fetch(`${API_BASE}/hooks/${h.id}`, { method: 'DELETE', headers });
           if (delRes.ok) {
             rapport.slettet.push({ skjema: form.name, gammel_mottaker: h.data.email, hook_id: h.id });
@@ -78,35 +80,37 @@ export default async (req) => {
         }
       }
 
-      // Sjekk om det finnes en hook med korrekt mottaker
-      const finnes = emailHooks.some(h => h.data && h.data.email === mottaker);
+      // For hver mottaker som SKAL ha hook — opprett hvis ikke finnes
+      for (const mottaker of mottakere) {
+        const finnes = emailHooks.some(h => h.data && h.data.email === mottaker);
 
-      if (finnes) {
-        rapport.hoppet_over.push({ skjema: form.name, mottaker, grunn: 'Notifikasjon finnes allerede' });
-        continue;
-      }
+        if (finnes) {
+          rapport.hoppet_over.push({ skjema: form.name, mottaker, grunn: 'Notifikasjon finnes allerede' });
+          continue;
+        }
 
-      // Opprett ny email-hook
-      const body = {
-        site_id: SITE_ID,
-        form_id: form.id,
-        event: 'submission_created',
-        type: 'email',
-        data: { email: mottaker },
-      };
+        // Opprett ny email-hook
+        const body = {
+          site_id: SITE_ID,
+          form_id: form.id,
+          event: 'submission_created',
+          type: 'email',
+          data: { email: mottaker },
+        };
 
-      const postRes = await fetch(`${API_BASE}/hooks`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(body),
-      });
+        const postRes = await fetch(`${API_BASE}/hooks`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(body),
+        });
 
-      if (postRes.ok) {
-        const ny = await postRes.json();
-        rapport.opprettet.push({ skjema: form.name, mottaker, hook_id: ny.id });
-      } else {
-        const tekst = await postRes.text();
-        rapport.feil.push({ skjema: form.name, mottaker, status: postRes.status, detaljer: tekst });
+        if (postRes.ok) {
+          const ny = await postRes.json();
+          rapport.opprettet.push({ skjema: form.name, mottaker, hook_id: ny.id });
+        } else {
+          const tekst = await postRes.text();
+          rapport.feil.push({ skjema: form.name, mottaker, status: postRes.status, detaljer: tekst });
+        }
       }
     }
 
