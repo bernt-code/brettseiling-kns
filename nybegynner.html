@@ -41,6 +41,10 @@
       border-radius: 0 8px 8px 0;
       border-left: 1px solid var(--green);
     }
+    .course-toggle button:not(:first-child):not(:last-child) {
+      border-left: 1px solid var(--green);
+      border-right: 1px solid var(--green);
+    }
     .course-toggle button.active {
       background: var(--green);
       color: #fff;
@@ -49,19 +53,23 @@
       background: rgba(201, 162, 39, 0.1);
     }
     .view-introkurs,
+    .view-ukedager,
     .view-sesong {
       display: none;
     }
     .view-introkurs.visible,
+    .view-ukedager.visible,
     .view-sesong.visible {
       display: block;
     }
     /* For inline swappable elements */
     .swap-introkurs,
+    .swap-ukedager,
     .swap-sesong {
       display: none;
     }
     .swap-introkurs.visible,
+    .swap-ukedager.visible,
     .swap-sesong.visible {
       display: inline;
     }
@@ -195,6 +203,7 @@
       <strong>Pris</strong>
       <span>
         <span class="swap-introkurs visible">1 500 kr / helg — alt inkl.</span>
+        <span class="swap-ukedager">Pris kommer — alt inkl.</span>
         <span class="swap-sesong">3 225 kr / halvår inkl. leie</span>
       </span>
     </div>
@@ -203,7 +212,8 @@
 
 <!-- KURSVALG TOGGLE -->
 <div class="course-toggle" id="courseToggle">
-  <button class="active" data-course="introkurs">Introkurs helg</button>
+  <button class="active" data-course="introkurs">Helg</button>
+  <button data-course="ukedager">Ukedager</button>
   <button data-course="sesong">Sesongkurs</button>
 </div>
 
@@ -310,6 +320,47 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- TYPISK KURSDAG — UKEDAGER -->
+<section class="content-section view-ukedager">
+  <div class="content-inner">
+    <div class="content-text full-width">
+      <h2>En typisk ukedagsdag</h2>
+      <p>Ukedagskurset er et kveldskurs som passer for deg som jobber eller går på skole. Her er hva du kan forvente:</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-time">17:00</div>
+          <div class="timeline-desc">
+            <strong>Oppmøte og rigging</strong>
+            <p>Vi møtes ved seilsportsenteret og rigger utstyret sammen.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-time">17:30</div>
+          <div class="timeline-desc">
+            <strong>Briefing på land</strong>
+            <p>Kort gjennomgang av dagens tema og teknikk.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-time">17:45</div>
+          <div class="timeline-desc">
+            <strong>Ut på vannet</strong>
+            <p>Praktisk øving med instruktør tett på.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-time">19:15</div>
+          <div class="timeline-desc">
+            <strong>Oppsummering og rydding</strong>
+            <p>Vi tar ned utstyret og oppsummerer dagen.</p>
+          </div>
+        </div>
+      </div>
+      <div class="schedule-note">Detaljert ukeplan og flere detaljer kommer snart.</div>
     </div>
   </div>
 </section>
@@ -711,6 +762,41 @@
   </div>
 </section>
 
+<!-- KALENDER — UKEDAGER -->
+<section class="content-section alt-bg view-ukedager">
+  <div class="content-inner">
+    <div class="content-text full-width">
+      <h2>Kurskalender</h2>
+      <p>Ukedagskurs som kveldskurs gjennom sesongen. Datoer og tidspunkt oppdateres snart.</p>
+      <div class="schedule-grid">
+        <div class="schedule-card">
+          <div class="schedule-date">
+            <span class="day-name">TBD</span>
+            <span class="time">TBD</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Ukedager</span>
+            <h4>Ukedagskurs</h4>
+            <p>Datoer og tidspunkt kommer.</p>
+          </div>
+        </div>
+        <div class="schedule-card">
+          <div class="schedule-date">
+            <span class="day-name">TBD</span>
+            <span class="time">TBD</span>
+          </div>
+          <div class="schedule-info">
+            <span class="schedule-tag trening">Ukedager</span>
+            <h4>Ukedagskurs</h4>
+            <p>Datoer og tidspunkt kommer.</p>
+          </div>
+        </div>
+      </div>
+      <div class="schedule-note">Minimum 4 påmeldte for gjennomføring. Kommunikasjon via Spond.</div>
+    </div>
+  </div>
+</section>
+
 <!-- KALENDER — SESONGKURS -->
 <section class="content-section alt-bg view-sesong">
   <div class="content-inner">
@@ -753,15 +839,21 @@
       <h2>Meld deg på nybegynnerkurset</h2>
       <p>Fyll ut skjemaet, så tar vi kontakt med deg innen 2 virkedager med mer informasjon om oppstart og praktiske detaljer.</p>
 
-      <!-- PRIS — INTROKURS -->
+      <!-- PRIS — HELG -->
       <div class="price-box view-introkurs visible">
         <div class="price-main">1 500 kr / helg</div>
         <div class="price-note">To dager (lør–søn, kl. 10–15). Alt utstyr inkludert. Min. 4, maks 10 deltakere.</div>
       </div>
-      <!-- Påmeldte for valgt helg -->
+      <!-- Påmeldte for valgt helg (kun relevant for helg-kurs; styres av JS) -->
       <div id="pameldteBoks" class="pameldte-boks" style="display:none;">
         <h4>Påmeldt <span id="pameldteHelgNavn"></span>:</h4>
         <div id="pameldteNavnListe"></div>
+      </div>
+
+      <!-- PRIS — UKEDAGER -->
+      <div class="price-box view-ukedager">
+        <div class="price-main">Pris kommer</div>
+        <div class="price-note">Kveldskurs på ukedager. Alt utstyr inkludert. Detaljer oppdateres snart.</div>
       </div>
 
       <!-- PRIS — SESONGKURS -->
@@ -780,49 +872,160 @@
       </div>
     </div>
     <div class="reg-form" id="form-nybegynner">
-      <h3>Påmelding — <span class="swap-introkurs visible">Introkurs helg</span><span class="swap-sesong">Sesongkurs</span></h3>
-      <div id="valgtHelgInfo" style="display:none; background: rgba(201,162,39,0.1); border: 1px solid var(--green); border-radius: 8px; padding: 10px 16px; margin-bottom: 16px; font-weight: 600; color: var(--navy);">
-        Valgt helg: <span id="valgtHelgTekst"></span>
-      </div>
-      <form name="nybegynner" method="POST" action="/nybegynner.html?success=1#pamelding" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="nybegynner" />
-        <input type="hidden" name="kurstype" id="nb-kurstype" value="introkurs" />
-        <input type="hidden" name="kurshelg" id="nb-kurshelg" value="" />
-        <p style="display:none"><input name="bot-field" /></p>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="nb-fornavn">Fornavn *</label>
-            <input type="text" id="nb-fornavn" name="fornavn" required placeholder="Ola" />
+
+      <!-- ================ SKJEMA: HELG (introkurs) ================ -->
+      <div class="form-wrapper view-introkurs visible">
+        <h3>Påmelding — Helg</h3>
+        <div id="valgtHelgInfo" style="display:none; background: rgba(201,162,39,0.1); border: 1px solid var(--green); border-radius: 8px; padding: 10px 16px; margin-bottom: 16px; font-weight: 600; color: var(--navy);">
+          Valgt helg: <span id="valgtHelgTekst"></span>
+        </div>
+        <form name="nybegynner" method="POST" action="/nybegynner.html?success=nybegynner#pamelding" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="nybegynner" />
+          <input type="hidden" name="kurstype" value="introkurs" />
+          <input type="hidden" name="kurshelg" id="nb-kurshelg" value="" />
+          <p style="display:none"><input name="bot-field" /></p>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nb-fornavn">Fornavn *</label>
+              <input type="text" id="nb-fornavn" name="fornavn" required placeholder="Ola" />
+            </div>
+            <div class="form-group">
+              <label for="nb-etternavn">Etternavn *</label>
+              <input type="text" id="nb-etternavn" name="etternavn" required placeholder="Nordmann" />
+            </div>
           </div>
           <div class="form-group">
-            <label for="nb-etternavn">Etternavn *</label>
-            <input type="text" id="nb-etternavn" name="etternavn" required placeholder="Nordmann" />
+            <label for="nb-epost">E-post *</label>
+            <input type="email" id="nb-epost" name="epost" required placeholder="din@epost.no" />
           </div>
+          <div class="form-group">
+            <label for="nb-telefon">Telefon</label>
+            <input type="tel" id="nb-telefon" name="telefon" placeholder="400 00 000" />
+          </div>
+          <div class="form-group">
+            <label for="nb-alder">Alder</label>
+            <input type="number" id="nb-alder" name="alder" placeholder="30" min="7" max="99" />
+          </div>
+          <div class="form-group">
+            <label for="nb-foreldrenavn">Foreldrenes navn <span style="font-weight:400; color:#666;">(hvis deltaker er under 18)</span></label>
+            <input type="text" id="nb-foreldrenavn" name="foreldrenavn" placeholder="Ola og Kari Nordmann" />
+          </div>
+          <div class="form-group">
+            <label for="nb-melding">Melding (valgfritt)</label>
+            <textarea id="nb-melding" name="melding" placeholder="Spørsmål eller annet du vil si oss?"></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Send påmelding</button>
+          <p class="form-note">Vi tar kontakt innen 2 virkedager.</p>
+        </form>
+        <div class="form-success" id="success-nybegynner" style="display:none;">
+          <div class="checkmark">✅</div>
+          <h3>Takk for påmeldingen!</h3>
+          <p>Geir tar kontakt med deg snart.</p>
         </div>
-        <div class="form-group">
-          <label for="nb-epost">E-post *</label>
-          <input type="email" id="nb-epost" name="epost" required placeholder="din@epost.no" />
-        </div>
-        <div class="form-group">
-          <label for="nb-telefon">Telefon</label>
-          <input type="tel" id="nb-telefon" name="telefon" placeholder="400 00 000" />
-        </div>
-        <div class="form-group">
-          <label for="nb-alder">Alder</label>
-          <input type="number" id="nb-alder" name="alder" placeholder="30" min="7" max="99" />
-        </div>
-        <div class="form-group">
-          <label for="nb-melding">Melding (valgfritt)</label>
-          <textarea id="nb-melding" name="melding" placeholder="Spørsmål eller annet du vil si oss?"></textarea>
-        </div>
-        <button type="submit" class="btn-submit">Send påmelding</button>
-        <p class="form-note">Vi tar kontakt innen 2 virkedager.</p>
-      </form>
-      <div class="form-success" id="success-nybegynner">
-        <div class="checkmark">✅</div>
-        <h3>Takk for påmeldingen!</h3>
-        <p>Geir tar kontakt med deg snart.</p>
       </div>
+
+      <!-- ================ SKJEMA: UKEDAGER ================ -->
+      <div class="form-wrapper view-ukedager">
+        <h3>Påmelding — Ukedager</h3>
+        <form name="nybegynner-ukedager" method="POST" action="/nybegynner.html?success=nybegynner-ukedager#pamelding" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="nybegynner-ukedager" />
+          <input type="hidden" name="kurstype" value="ukedager" />
+          <p style="display:none"><input name="bot-field" /></p>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="uk-fornavn">Fornavn *</label>
+              <input type="text" id="uk-fornavn" name="fornavn" required placeholder="Ola" />
+            </div>
+            <div class="form-group">
+              <label for="uk-etternavn">Etternavn *</label>
+              <input type="text" id="uk-etternavn" name="etternavn" required placeholder="Nordmann" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="uk-epost">E-post *</label>
+            <input type="email" id="uk-epost" name="epost" required placeholder="din@epost.no" />
+          </div>
+          <div class="form-group">
+            <label for="uk-telefon">Telefon</label>
+            <input type="tel" id="uk-telefon" name="telefon" placeholder="400 00 000" />
+          </div>
+          <div class="form-group">
+            <label for="uk-alder">Alder</label>
+            <input type="number" id="uk-alder" name="alder" placeholder="30" min="7" max="99" />
+          </div>
+          <div class="form-group">
+            <label for="uk-foreldrenavn">Foreldrenes navn <span style="font-weight:400; color:#666;">(hvis deltaker er under 18)</span></label>
+            <input type="text" id="uk-foreldrenavn" name="foreldrenavn" placeholder="Ola og Kari Nordmann" />
+          </div>
+          <div class="form-group">
+            <label for="uk-melding">Melding (valgfritt)</label>
+            <textarea id="uk-melding" name="melding" placeholder="Spørsmål eller annet du vil si oss?"></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Send påmelding</button>
+          <p class="form-note">Vi tar kontakt innen 2 virkedager.</p>
+        </form>
+        <div class="form-success" id="success-nybegynner-ukedager" style="display:none;">
+          <div class="checkmark">✅</div>
+          <h3>Takk for påmeldingen!</h3>
+          <p>Geir tar kontakt med deg snart.</p>
+        </div>
+      </div>
+
+      <!-- ================ SKJEMA: SESONGKURS ================ -->
+      <div class="form-wrapper view-sesong">
+        <h3>Påmelding — Sesongkurs</h3>
+        <form name="nybegynner-sesong" method="POST" action="/nybegynner.html?success=nybegynner-sesong#pamelding" data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="nybegynner-sesong" />
+          <input type="hidden" name="kurstype" value="sesongkurs" />
+          <p style="display:none"><input name="bot-field" /></p>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="se-fornavn">Fornavn *</label>
+              <input type="text" id="se-fornavn" name="fornavn" required placeholder="Ola" />
+            </div>
+            <div class="form-group">
+              <label for="se-etternavn">Etternavn *</label>
+              <input type="text" id="se-etternavn" name="etternavn" required placeholder="Nordmann" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="se-epost">E-post *</label>
+            <input type="email" id="se-epost" name="epost" required placeholder="din@epost.no" />
+          </div>
+          <div class="form-group">
+            <label for="se-telefon">Telefon</label>
+            <input type="tel" id="se-telefon" name="telefon" placeholder="400 00 000" />
+          </div>
+          <div class="form-group">
+            <label for="se-alder">Alder</label>
+            <input type="number" id="se-alder" name="alder" placeholder="30" min="7" max="99" />
+          </div>
+          <div class="form-group">
+            <label for="se-foreldrenavn">Foreldrenes navn <span style="font-weight:400; color:#666;">(hvis deltaker er under 18)</span></label>
+            <input type="text" id="se-foreldrenavn" name="foreldrenavn" placeholder="Ola og Kari Nordmann" />
+          </div>
+          <div class="form-group">
+            <label for="se-egetutstyr">Eget utstyr?</label>
+            <select id="se-egetutstyr" name="egetutstyr">
+              <option value="">Velg…</option>
+              <option value="nei">Nei — jeg trenger leie (3 225 kr)</option>
+              <option value="ja">Ja — jeg har eget utstyr (1 875 kr)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="se-melding">Melding (valgfritt)</label>
+            <textarea id="se-melding" name="melding" placeholder="Spørsmål eller annet du vil si oss?"></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Send påmelding</button>
+          <p class="form-note">Vi tar kontakt innen 2 virkedager.</p>
+        </form>
+        <div class="form-success" id="success-nybegynner-sesong" style="display:none;">
+          <div class="checkmark">✅</div>
+          <h3>Takk for påmeldingen!</h3>
+          <p>Geir tar kontakt med deg snart.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -867,17 +1070,22 @@
 </footer>
 
 <script>
-  /* --- Kursvalg toggle --- */
+  /* --- Kursvalg toggle (3 valg: introkurs / ukedager / sesong) --- */
   const toggleBtns = document.querySelectorAll('.course-toggle button');
   const introEls = document.querySelectorAll('.view-introkurs, .swap-introkurs');
+  const ukedagerEls = document.querySelectorAll('.view-ukedager, .swap-ukedager');
   const sesongEls = document.querySelectorAll('.view-sesong, .swap-sesong');
-  const kurstypeField = document.getElementById('nb-kurstype');
 
   function switchCourse(course) {
     toggleBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.course === course));
     introEls.forEach(el => el.classList.toggle('visible', course === 'introkurs'));
+    ukedagerEls.forEach(el => el.classList.toggle('visible', course === 'ukedager'));
     sesongEls.forEach(el => el.classList.toggle('visible', course === 'sesong'));
-    if (kurstypeField) kurstypeField.value = course === 'introkurs' ? 'introkurs' : 'sesongkurs';
+    // Skjul påmeldte-boks når vi bytter vekk fra helg
+    if (course !== 'introkurs') {
+      const boks = document.getElementById('pameldteBoks');
+      if (boks) boks.style.display = 'none';
+    }
   }
 
   toggleBtns.forEach(btn => {
@@ -976,19 +1184,22 @@
   }
   hentPameldte();
 
-  /* --- Form success handling --- */
+  /* --- Form success handling (pr. skjemanavn) --- */
   const params = new URLSearchParams(window.location.search);
-  if (params.has('success')) {
-    const formWrap = document.getElementById('form-nybegynner');
-    const successEl = document.getElementById('success-nybegynner');
-    if (formWrap) formWrap.querySelector('form').style.display = 'none';
+  const successType = params.get('success');
+  if (successType) {
+    const successEl = document.getElementById('success-' + successType);
+    const formEl = document.querySelector('form[name="' + successType + '"]');
     if (successEl) successEl.style.display = 'block';
+    if (formEl) formEl.style.display = 'none';
+    // Bytt til riktig kursvisning slik at suksess-meldingen vises i rett fane
+    const kursmap = {
+      'nybegynner': 'introkurs',
+      'nybegynner-ukedager': 'ukedager',
+      'nybegynner-sesong': 'sesong'
+    };
+    if (kursmap[successType]) switchCourse(kursmap[successType]);
   }
-  document.querySelectorAll('[data-netlify="true"]').forEach(form => {
-    form.addEventListener('submit', function() {
-      form.setAttribute('action', '/nybegynner.html?success=1#pamelding');
-    });
-  });
 </script>
 
 </body>
