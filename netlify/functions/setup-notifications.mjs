@@ -66,8 +66,13 @@ export default async (req) => {
     const forms = await formsRes.json();
 
     // 2) Hent eksisterende hooks på siden (for idempotens)
-    const hooksRes = await fetch(`${API_BASE}/sites/${SITE_ID}/hooks`, { headers });
-    const eksisterende = hooksRes.ok ? await hooksRes.json() : [];
+    // Riktig endepunkt: /hooks?site_id=X (IKKE /sites/X/hooks, som returnerer 404)
+    const hooksRes = await fetch(`${API_BASE}/hooks?site_id=${SITE_ID}`, { headers });
+    if (!hooksRes.ok) {
+      const detaljer = await hooksRes.text();
+      return json({ error: 'Kunne ikke hente hooks', status: hooksRes.status, detaljer }, 500);
+    }
+    const eksisterende = await hooksRes.json();
 
     const rapport = {
       epost_opprettet: [],

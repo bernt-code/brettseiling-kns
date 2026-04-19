@@ -21,9 +21,15 @@ export default async (req) => {
   };
 
   try {
-    const hooksRes = await fetch(`${API_BASE}/sites/${SITE_ID}/hooks`, { headers });
+    // Riktig endepunkt: /hooks?site_id=X (IKKE /sites/X/hooks)
+    const hooksRes = await fetch(`${API_BASE}/hooks?site_id=${SITE_ID}`, { headers });
     if (!hooksRes.ok) {
-      return json({ error: 'Kunne ikke hente hooks', status: hooksRes.status }, 500);
+      const detaljer = await hooksRes.text();
+      return json({
+        error: 'Kunne ikke hente hooks',
+        status: hooksRes.status,
+        detaljer,
+      }, 500);
     }
     const hooks = await hooksRes.json();
 
@@ -43,13 +49,14 @@ export default async (req) => {
 
     return json({
       status: 'ferdig',
-      total_url_hooks_funnet: urlHooks.length,
+      total_hooks_funnet: hooks.length,
+      url_hooks_funnet: urlHooks.length,
       slettet_count: slettet.length,
       slettet,
       feil,
     });
   } catch (err) {
-    return json({ error: err.message }, 500);
+    return json({ error: err.message, stack: err.stack }, 500);
   }
 };
 
