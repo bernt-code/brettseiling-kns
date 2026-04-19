@@ -41,10 +41,6 @@
       border-radius: 0 8px 8px 0;
       border-left: 1px solid var(--green);
     }
-    .course-toggle button:not(:first-child):not(:last-child) {
-      border-left: 1px solid var(--green);
-      border-right: 1px solid var(--green);
-    }
     .course-toggle button.active {
       background: var(--green);
       color: #fff;
@@ -53,23 +49,19 @@
       background: rgba(201, 162, 39, 0.1);
     }
     .view-introkurs,
-    .view-ukedager,
     .view-sesong {
       display: none;
     }
     .view-introkurs.visible,
-    .view-ukedager.visible,
     .view-sesong.visible {
       display: block;
     }
     /* For inline swappable elements */
     .swap-introkurs,
-    .swap-ukedager,
     .swap-sesong {
       display: none;
     }
     .swap-introkurs.visible,
-    .swap-ukedager.visible,
     .swap-sesong.visible {
       display: inline;
     }
@@ -203,7 +195,6 @@
       <strong>Pris</strong>
       <span>
         <span class="swap-introkurs visible">1 500 kr / helg — alt inkl.</span>
-        <span class="swap-ukedager">Pris kommer — alt inkl.</span>
         <span class="swap-sesong">3 225 kr / halvår inkl. leie</span>
       </span>
     </div>
@@ -213,7 +204,6 @@
 <!-- KURSVALG TOGGLE -->
 <div class="course-toggle" id="courseToggle">
   <button class="active" data-course="introkurs">Helg</button>
-  <button data-course="ukedager">Ukedager</button>
   <button data-course="sesong">Sesongkurs</button>
 </div>
 
@@ -324,47 +314,6 @@
   </div>
 </section>
 
-<!-- TYPISK KURSDAG — UKEDAGER -->
-<section class="content-section view-ukedager">
-  <div class="content-inner">
-    <div class="content-text full-width">
-      <h2>En typisk ukedagsdag</h2>
-      <p>Ukedagskurset er et kveldskurs som passer for deg som jobber eller går på skole. Her er hva du kan forvente:</p>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-time">17:00</div>
-          <div class="timeline-desc">
-            <strong>Oppmøte og rigging</strong>
-            <p>Vi møtes ved seilsportsenteret og rigger utstyret sammen.</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">17:30</div>
-          <div class="timeline-desc">
-            <strong>Briefing på land</strong>
-            <p>Kort gjennomgang av dagens tema og teknikk.</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">17:45</div>
-          <div class="timeline-desc">
-            <strong>Ut på vannet</strong>
-            <p>Praktisk øving med instruktør tett på.</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-time">19:15</div>
-          <div class="timeline-desc">
-            <strong>Oppsummering og rydding</strong>
-            <p>Vi tar ned utstyret og oppsummerer dagen.</p>
-          </div>
-        </div>
-      </div>
-      <div class="schedule-note">Detaljert ukeplan og flere detaljer kommer snart.</div>
-    </div>
-  </div>
-</section>
-
 <!-- TYPISK KURSDAG — SESONGKURS -->
 <section class="content-section view-sesong">
   <div class="content-inner">
@@ -394,10 +343,10 @@
           </div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-time">19:15</div>
+          <div class="timeline-time">19:45</div>
           <div class="timeline-desc">
             <strong>Oppsummering og rydding</strong>
-            <p>Vi tar ned utstyret, snakker om hva som gikk bra og hva vi øver på neste gang.</p>
+            <p>Vi tar ned utstyret, snakker om hva som gikk bra og hva vi øver på neste gang. Ferdig ca 20:00.</p>
           </div>
         </div>
       </div>
@@ -762,68 +711,33 @@
   </div>
 </section>
 
-<!-- KALENDER — UKEDAGER -->
-<section class="content-section alt-bg view-ukedager">
-  <div class="content-inner">
-    <div class="content-text full-width">
-      <h2>Kurskalender</h2>
-      <p>Ukedagskurs som kveldskurs gjennom sesongen. Datoer og tidspunkt oppdateres snart.</p>
-      <div class="schedule-grid">
-        <div class="schedule-card">
-          <div class="schedule-date">
-            <span class="day-name">TBD</span>
-            <span class="time">TBD</span>
-          </div>
-          <div class="schedule-info">
-            <span class="schedule-tag trening">Ukedager</span>
-            <h4>Ukedagskurs</h4>
-            <p>Datoer og tidspunkt kommer.</p>
-          </div>
-        </div>
-        <div class="schedule-card">
-          <div class="schedule-date">
-            <span class="day-name">TBD</span>
-            <span class="time">TBD</span>
-          </div>
-          <div class="schedule-info">
-            <span class="schedule-tag trening">Ukedager</span>
-            <h4>Ukedagskurs</h4>
-            <p>Datoer og tidspunkt kommer.</p>
-          </div>
-        </div>
-      </div>
-      <div class="schedule-note">Minimum 4 påmeldte for gjennomføring. Kommunikasjon via Spond.</div>
-    </div>
-  </div>
-</section>
-
 <!-- KALENDER — SESONGKURS -->
 <section class="content-section alt-bg view-sesong">
   <div class="content-inner">
     <div class="content-text full-width">
       <h2>Kurskalender</h2>
-      <p>Nybegynnerkursene går gjennom sommeren. Daglig kommunikasjon og oppdateringer skjer via Spond.</p>
+      <p>Sesongkurset går som kveldskurs på tirsdager og torsdager, kl. 17–20. Velg sommer- eller høstsesong når du melder deg på.</p>
       <div class="schedule-grid">
         <div class="schedule-card">
           <div class="schedule-date">
-            <span class="day-name">TBD</span>
-            <span class="time">TBD</span>
+            <span class="day-name">Sommer</span>
+            <span class="time">9. mai – 20. juni</span>
           </div>
           <div class="schedule-info">
-            <span class="schedule-tag trening">Kurs</span>
-            <h4>Nybegynnerkurs</h4>
-            <p>Datoer og tidspunkt kommer.</p>
+            <span class="schedule-tag trening">Sesong</span>
+            <h4>Sommersesong</h4>
+            <p>Tirsdager og torsdager, kl. 17:00–20:00.</p>
           </div>
         </div>
         <div class="schedule-card">
           <div class="schedule-date">
-            <span class="day-name">TBD</span>
-            <span class="time">TBD</span>
+            <span class="day-name">Høst</span>
+            <span class="time">15. juli – 30. sept.</span>
           </div>
           <div class="schedule-info">
-            <span class="schedule-tag trening">Kurs</span>
-            <h4>Nybegynnerkurs</h4>
-            <p>Datoer og tidspunkt kommer.</p>
+            <span class="schedule-tag trening">Sesong</span>
+            <h4>Høstsesong</h4>
+            <p>Tirsdager og torsdager, kl. 17:00–20:00.</p>
           </div>
         </div>
       </div>
@@ -848,12 +762,6 @@
       <div id="pameldteBoks" class="pameldte-boks" style="display:none;">
         <h4>Påmeldt <span id="pameldteHelgNavn"></span>:</h4>
         <div id="pameldteNavnListe"></div>
-      </div>
-
-      <!-- PRIS — UKEDAGER -->
-      <div class="price-box view-ukedager">
-        <div class="price-main">Pris kommer</div>
-        <div class="price-note">Kveldskurs på ukedager. Alt utstyr inkludert. Detaljer oppdateres snart.</div>
       </div>
 
       <!-- PRIS — SESONGKURS -->
@@ -924,53 +832,6 @@
         </div>
       </div>
 
-      <!-- ================ SKJEMA: UKEDAGER ================ -->
-      <div class="form-wrapper view-ukedager">
-        <h3>Påmelding — Ukedager</h3>
-        <form name="nybegynner-ukedager" method="POST" action="/nybegynner.html?success=nybegynner-ukedager#pamelding" data-netlify="true" netlify-honeypot="bot-field">
-          <input type="hidden" name="form-name" value="nybegynner-ukedager" />
-          <input type="hidden" name="kurstype" value="ukedager" />
-          <p style="display:none"><input name="bot-field" /></p>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="uk-fornavn">Fornavn *</label>
-              <input type="text" id="uk-fornavn" name="fornavn" required placeholder="Ola" />
-            </div>
-            <div class="form-group">
-              <label for="uk-etternavn">Etternavn *</label>
-              <input type="text" id="uk-etternavn" name="etternavn" required placeholder="Nordmann" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="uk-epost">E-post *</label>
-            <input type="email" id="uk-epost" name="epost" required placeholder="din@epost.no" />
-          </div>
-          <div class="form-group">
-            <label for="uk-telefon">Telefon</label>
-            <input type="tel" id="uk-telefon" name="telefon" placeholder="400 00 000" />
-          </div>
-          <div class="form-group">
-            <label for="uk-alder">Alder</label>
-            <input type="number" id="uk-alder" name="alder" placeholder="30" min="7" max="99" />
-          </div>
-          <div class="form-group">
-            <label for="uk-foreldrenavn">Foreldrenes navn <span style="font-weight:400; color:#666;">(hvis deltaker er under 18)</span></label>
-            <input type="text" id="uk-foreldrenavn" name="foreldrenavn" placeholder="Ola og Kari Nordmann" />
-          </div>
-          <div class="form-group">
-            <label for="uk-melding">Melding (valgfritt)</label>
-            <textarea id="uk-melding" name="melding" placeholder="Spørsmål eller annet du vil si oss?"></textarea>
-          </div>
-          <button type="submit" class="btn-submit">Send påmelding</button>
-          <p class="form-note">Vi tar kontakt innen 2 virkedager.</p>
-        </form>
-        <div class="form-success" id="success-nybegynner-ukedager" style="display:none;">
-          <div class="checkmark">✅</div>
-          <h3>Takk for påmeldingen!</h3>
-          <p>Geir tar kontakt med deg snart.</p>
-        </div>
-      </div>
-
       <!-- ================ SKJEMA: SESONGKURS ================ -->
       <div class="form-wrapper view-sesong">
         <h3>Påmelding — Sesongkurs</h3>
@@ -978,6 +839,14 @@
           <input type="hidden" name="form-name" value="nybegynner-sesong" />
           <input type="hidden" name="kurstype" value="sesongkurs" />
           <p style="display:none"><input name="bot-field" /></p>
+          <div class="form-group">
+            <label for="se-sesong">Hvilken sesong? *</label>
+            <select id="se-sesong" name="sesong" required>
+              <option value="">Velg…</option>
+              <option value="Sommer (9. mai – 20. juni)">Sommer (9. mai – 20. juni)</option>
+              <option value="Høst (15. juli – 30. september)">Høst (15. juli – 30. september)</option>
+            </select>
+          </div>
           <div class="form-row">
             <div class="form-group">
               <label for="se-fornavn">Fornavn *</label>
@@ -1070,16 +939,14 @@
 </footer>
 
 <script>
-  /* --- Kursvalg toggle (3 valg: introkurs / ukedager / sesong) --- */
+  /* --- Kursvalg toggle (2 valg: introkurs / sesong) --- */
   const toggleBtns = document.querySelectorAll('.course-toggle button');
   const introEls = document.querySelectorAll('.view-introkurs, .swap-introkurs');
-  const ukedagerEls = document.querySelectorAll('.view-ukedager, .swap-ukedager');
   const sesongEls = document.querySelectorAll('.view-sesong, .swap-sesong');
 
   function switchCourse(course) {
     toggleBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.course === course));
     introEls.forEach(el => el.classList.toggle('visible', course === 'introkurs'));
-    ukedagerEls.forEach(el => el.classList.toggle('visible', course === 'ukedager'));
     sesongEls.forEach(el => el.classList.toggle('visible', course === 'sesong'));
     // Skjul påmeldte-boks når vi bytter vekk fra helg
     if (course !== 'introkurs') {
@@ -1195,7 +1062,6 @@
     // Bytt til riktig kursvisning slik at suksess-meldingen vises i rett fane
     const kursmap = {
       'nybegynner': 'introkurs',
-      'nybegynner-ukedager': 'ukedager',
       'nybegynner-sesong': 'sesong'
     };
     if (kursmap[successType]) switchCourse(kursmap[successType]);

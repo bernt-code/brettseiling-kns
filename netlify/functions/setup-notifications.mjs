@@ -15,7 +15,6 @@ const SITE_ID = '0bac5dc6-0ecb-4383-ab67-f9cb9e0015c9';
 // Hvem skal motta mail for hvilket skjema
 const MAIL_MOTTAKERE = {
   'nybegynner':          'geirmjo@gmail.com',
-  'nybegynner-ukedager': 'geirmjo@gmail.com',
   'nybegynner-sesong':   'geirmjo@gmail.com',
   'learn2fly':           'sunniva.stenmark@gmail.com',
   'flight-academy':      'hjosnes@gmail.com',

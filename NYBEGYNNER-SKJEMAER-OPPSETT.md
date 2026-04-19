@@ -2,61 +2,63 @@
 
 ## Hva endret seg
 
-Nybegynner-siden har nå **tre separate skjemaer** som byttes via toggle-knappene:
+Nybegynner-siden har nå **to skjemaer** som byttes via toggle-knappene:
 
-| Kursvalg | Skjemanavn (Netlify)   | Google Sheets-fane       | Mailmottaker            |
-|----------|------------------------|--------------------------|-------------------------|
-| Helg     | `nybegynner`           | `nybegynner`             | geirmjo@gmail.com       |
-| Ukedager | `nybegynner-ukedager`  | `nybegynner-ukedager`    | geirmjo@gmail.com       |
-| Sesong   | `nybegynner-sesong`    | `nybegynner-sesong`      | geirmjo@gmail.com       |
+| Kursvalg  | Skjemanavn (Netlify)   | Google Sheets-fane     | Mailmottaker       |
+|-----------|------------------------|------------------------|--------------------|
+| Helg      | `nybegynner`           | `nybegynner`           | geirmjo@gmail.com  |
+| Sesong    | `nybegynner-sesong`    | `nybegynner-sesong`    | geirmjo@gmail.com  |
 
-Alle tre har nytt **valgfritt** felt `foreldrenavn` ("hvis deltaker er
+Sesongskjemaet har nå en **obligatorisk dropdown** for å velge mellom
+*Sommer (9. mai – 20. juni)* og *Høst (15. juli – 30. september)*. Verdien
+sendes i feltet `sesong` og kommer med i mailen og i Sheets.
+
+Begge skjemaene har **valgfritt** felt `foreldrenavn` ("hvis deltaker er
 under 18"). Helg-skjemaet sender også med `kurshelg`.
 
-## Kjøreplan — 3 steg
+> Ukedager-skjemaet er fjernet.
+
+## Kjøreplan — 4 steg
 
 ### Steg 1 — Deploy
-Push endringene til GitHub / Netlify. Netlify oppdager de to nye
-skjemaene automatisk ved første deploy.
+Push endringene til GitHub / Netlify. Netlify auto-deployer siden ved push til `main`.
 
-### Steg 2 — Sett opp e-postnotifikasjoner (automatisk)
+### Steg 2 — Oppdater e-postvarsler (automatisk)
 Etter deploy: besøk denne URL-en én gang i nettleseren:
 
 ```
 https://brettseiling-kns.netlify.app/.netlify/functions/setup-notifications
 ```
 
-Funksjonen leser alle skjemaer, sjekker hva som allerede er satt opp,
-og oppretter e-postnotifikasjoner for alle skjemaene i henhold til
-mappingen i tabellen over. Den er idempotent — trygg å kjøre flere
-ganger, ingenting dupliseres.
+Funksjonen er idempotent — den oppretter ikke duplikater. Mappingen er
+oppdatert slik at `nybegynner-ukedager` ikke lenger er en forventet
+mottaker.
 
-Du får tilbake en JSON-rapport som viser hva som ble `opprettet`,
-`hoppet_over` (fordi det allerede finnes) eller hvilke skjemaer som
-var `ukjente` (typisk gamle `-page`-duplikater — kan ignoreres).
+### Steg 3 — Slett Ukedager-skjemaet i Netlify (manuelt)
+Gå til https://app.netlify.com/projects/brettseiling-kns/forms, finn
+`nybegynner-ukedager` (har 0 innsendinger) og slett det. Tilhørende
+e-postvarsel forsvinner automatisk.
 
-### Steg 3 — Oppdater Google Apps Script (manuelt, siste gang)
-Denne biten må fortsatt gjøres i script.google.com fordi Apps Script
-ikke har et API for å oppdatere kode:
+### Steg 4 — Oppdater Google Apps Script (manuelt)
+Apps Script mangler API for kode-oppdatering, så dette må gjøres i
+script.google.com:
 
 1. Gå til https://script.google.com
 2. Åpne KNS-prosjektet
 3. Slett gammel kode, lim inn hele den nye `pameldte-til-sheets.js`
-4. Kjør `setup()`-funksjonen — oppretter de to nye fanene og
-   oppdaterer overskriftene
+4. Kjør `setup()`-funksjonen — oppdaterer `nybegynner-sesong`-fanen med
+   den nye `Sesong`-kolonnen
 5. Distribuer på nytt (**Deploy → Manage deployments → ✏️ Edit →
    New version → Deploy**)
 
-> ⚠️ **NB om eksisterende nybegynner-fane:** Kolonnestrukturen har
-> endret seg (lagt til `Kurshelg` og `Foreldrenavn`). Gamle rader
-> får tomme felt der. Dataene forsvinner ikke, men kan se litt
-> forskjøvet ut. Vurder backup før du kjører `setup()` på nytt.
+> ⚠️ **NB om eksisterende nybegynner-sesong-fane:** Den får nå en ny
+> kolonne `Sesong` mellom `Tidspunkt` og `Fornavn`. Gamle rader får tomt
+> felt der. Dataene forsvinner ikke, men kolonnene forskyves. Vurder
+> backup før du kjører `setup()` på nytt.
 
-### Steg 4 — Webhook til Apps Script (for de to nye skjemaene)
-De to nye skjemaene trenger også webhook til Apps Script slik at
-påmeldingene kommer inn i Google Sheets. Dette kan også automatiseres
-— si fra hvis du vil ha det utvidet i `setup-notifications.mjs`,
-men da trenger jeg Apps Script Web App URL-en din.
+> Hvis `nybegynner-sesong` mangler webhook til Apps Script, legg til:
+> Netlify → Forms → nybegynner-sesong → Settings → Form notifications →
+> Add notification → Outgoing webhook → URL = Apps Script Web App URL.
 
 ## Rydding (valgfritt)
 Det ligger 4 gamle duplikatskjemaer i Netlify med `-page`-suffiks

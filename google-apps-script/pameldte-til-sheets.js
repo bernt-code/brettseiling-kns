@@ -29,7 +29,6 @@
 //    Legg til Outgoing webhook → lim inn Web App URL-en
 //    Gjør dette for ALLE skjemaene:
 //      - nybegynner (helg)
-//      - nybegynner-ukedager
 //      - nybegynner-sesong
 //      - learn2fly
 //      - flight-academy
@@ -52,8 +51,7 @@ const REDAKTORER = [
 // Kolonneoverskrifter per gruppe (fane)
 const KOLONNER = {
   'nybegynner':           ['Tidspunkt', 'Kurshelg', 'Fornavn', 'Etternavn', 'E-post', 'Telefon', 'Alder', 'Foreldrenavn', 'Melding'],
-  'nybegynner-ukedager':  ['Tidspunkt', 'Fornavn', 'Etternavn', 'E-post', 'Telefon', 'Alder', 'Foreldrenavn', 'Melding'],
-  'nybegynner-sesong':    ['Tidspunkt', 'Fornavn', 'Etternavn', 'E-post', 'Telefon', 'Alder', 'Foreldrenavn', 'Eget utstyr', 'Melding'],
+  'nybegynner-sesong':    ['Tidspunkt', 'Sesong', 'Fornavn', 'Etternavn', 'E-post', 'Telefon', 'Alder', 'Foreldrenavn', 'Eget utstyr', 'Melding'],
   'learn2fly':            ['Tidspunkt', 'Fornavn', 'Etternavn', 'E-post', 'Telefon', 'Erfaring', 'Melding'],
   'flight-academy':       ['Tidspunkt', 'Fornavn', 'Etternavn', 'E-post', 'Telefon', 'Erfaring', 'Foilerfaring', 'Melding'],
   'iqfoil-race':          ['Tidspunkt', 'Fornavn', 'Etternavn', 'E-post', 'Telefon', 'Alder', 'Seilbakgrunn'],
@@ -62,7 +60,6 @@ const KOLONNER = {
 // Farger per gruppe (topptekst-bakgrunn)
 const FARGER = {
   'nybegynner':           '#1a6b3a', // grønn
-  'nybegynner-ukedager':  '#2e8b57', // lysere grønn
   'nybegynner-sesong':    '#0f4f28', // mørkere grønn
   'learn2fly':            '#15233c', // navy
   'flight-academy':       '#7c3aed', // lilla
@@ -77,7 +74,7 @@ function setup() {
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
 
   // --- Opprett én fane per gruppe ---
-  const grupperekkefølge = ['nybegynner', 'nybegynner-ukedager', 'nybegynner-sesong', 'learn2fly', 'flight-academy', 'iqfoil-race'];
+  const grupperekkefølge = ['nybegynner', 'nybegynner-sesong', 'learn2fly', 'flight-academy', 'iqfoil-race'];
 
   for (const gruppe of grupperekkefølge) {
     let ark = ss.getSheetByName(gruppe);
@@ -175,20 +172,10 @@ function doPost(e) {
         data.foreldrenavn || '',
         data.melding      || '',
       ];
-    } else if (skjemanavn === 'nybegynner-ukedager') {
-      rad = [
-        tidspunkt,
-        data.fornavn      || '',
-        data.etternavn    || '',
-        data.epost        || '',
-        data.telefon      || '',
-        data.alder        || '',
-        data.foreldrenavn || '',
-        data.melding      || '',
-      ];
     } else if (skjemanavn === 'nybegynner-sesong') {
       rad = [
         tidspunkt,
+        data.sesong       || '',
         data.fornavn      || '',
         data.etternavn    || '',
         data.epost        || '',
